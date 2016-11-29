@@ -94,7 +94,7 @@ public class SudokuVerifier {
 		
 		for (int i=0; i<string.length(); i++) {
 			for (int j=i+1; j<string.length(); j++) {
-				if(string.charAt(i)==string.charAt(j))
+				if(string.charAt(i)==string.charAt(j) && string.charAt(i)==0)
 					result=false;
 			}
 		}
@@ -104,25 +104,22 @@ public class SudokuVerifier {
 
 	private ArrayList<String> createGrids(String candidateSolution) {
 		ArrayList<String> grids = new ArrayList<>();
+		ArrayList<String> rows = createRows(candidateSolution);
+		ArrayList<String> columns = crateColumns(candidateSolution);
+		
 		String toAdd = "";
 		
-		for (int j=0; j<candidateSolution.length()+6; j=j+6){
-			
-			if(j==81)
-				j=j/27;
-			else if (j==84)
-				j=j/14;
-			
-			toAdd += candidateSolution.charAt(j++);
-			toAdd += candidateSolution.charAt(j++);
-			toAdd += candidateSolution.charAt(j++);
-			
-			if (toAdd.length()==9){
-				grids.add(toAdd);
-				toAdd = "";
-			}
+		for (int i=0; i<columns.size(); i=i+3) {
+			for (int j=0; j<rows.size(); j++) {
+				toAdd+=rows.get(j).substring(0, 3);
+				
+				if (toAdd.length()==9) {
+					grids.add(toAdd);
+					toAdd = "";
+				}
+			}			
 		}
-			
+		
 		return grids;
 	}
 
